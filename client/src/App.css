@@ -60,3 +60,11 @@
   padding: 1em;
   margin: 1em;
 }
+
+a {
+  color: #825867;
+}
+
+a:hover {
+  color: #c3cfbb;
+}

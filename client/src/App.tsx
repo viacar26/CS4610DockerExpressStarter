@@ -1,12 +1,28 @@
-import { useState } from 'react'
-import React from 'react'
-import vineHeader from './assets/vine_header.png'
-import './App.css'
+import { useState } from 'react';
+import React from 'react'; 
+import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import vineHeader from './assets/vine_header.png';
+import './App.css';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/tutor" element={<Tutor />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+
+function Home() {
+  const navigate = useNavigate();
+  return (  
     <>
       <div className="box">
         <h1>Be Well</h1>
@@ -14,19 +30,63 @@ function App() {
           <img src= {vineHeader} alt="Vine Header" id="vine"/>
         </div>
         <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
+          <h2>Welcome to Be Well Tutor!</h2>
           <p>
             The Be Well Tutor is meant to help users learn 
             strategies to benefit emotional and mental well-being.
-            To learn more, check out the <a>About page.</a>
+            To learn more, give it a try!
           </p>
         </div>
-        <button className="login">Login</button>
+        <div>
+          <button className="login" onClick={() => navigate("/login")}>Sign Up</button>
+          <button className="login" onClick={() => navigate("/login")}>Login</button>
+        </div>
+        
       </div>
     </>
   )
 }
 
-export default App
+function Login() {
+  const navigate = useNavigate();
+  return (  
+    <>
+      <div className="box">
+        <h1>Be Well</h1>
+        <div>
+          <img src= {vineHeader} alt="Vine Header" id="vine"/>
+        </div>
+        <div className="card">
+          <h2>What is your username?</h2>
+          <input type="text" id="username" placeholder="Enter your username"/>
+        </div>
+        <div>
+          <button className="login" onClick={() => navigate("/tutor")}>Login</button>
+        </div>
+      </div>
+    </>
+  )
+}
+
+function Tutor() {
+  const navigate = useNavigate();
+  return (  
+    <>
+      <div className="box">
+        <h1>Be Well</h1>
+        <div>
+          <img src= {vineHeader} alt="Vine Header" id="vine"/>
+        </div>
+        <div className="card">
+          <h2>Welcome to Be Well Tutor!</h2>
+        </div>
+        <div>
+          <button className="login" onClick={() => navigate("/")}>Logout</button>
+        </div>
+        
+      </div>
+    </>
+  )
+}
+
+export default App;
