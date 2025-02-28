@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react'; 
 import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import vineHeader from './assets/vine_header.png';
@@ -6,7 +6,18 @@ import './App.css';
 
 
 function App() {
+
+  useEffect(() => {
+    async function fetchData(username: string) {
+      const response = await fetch(`/api/user/${username}`);
+      const data = await response.json();
+      console.log(data);
+    }
+    fetchData("test");
+  });
   
+  useEffect(() => {
+  }, []);
 
   return (
     <BrowserRouter>
