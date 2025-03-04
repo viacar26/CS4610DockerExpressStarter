@@ -90,8 +90,6 @@ function Tutor() {
         </div>
         <div className="card">
           <h2>Welcome to Be Well Tutor!</h2>
-        </div>
-        <div>
           <button className="login" onClick={() => navigate("/")}>Logout</button>
         </div>
         
