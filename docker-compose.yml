@@ -31,6 +31,8 @@ services:
       - ./server/.env
     depends_on:
       - db
+    
+    command: ["npm", "run", "dev"]
 
   client:
     build:
@@ -41,6 +43,8 @@ services:
       - client_node_modules:/app/node_modules
     ports:
       - "5173:5173"
+
+    command: ["npm", "run", "dev"]
 
   ollama:
         image: ollama/ollama:latest

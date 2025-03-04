@@ -19,10 +19,13 @@ model User {
   name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  posts Post[]
 }
 
 model Post {
   id        BigInt   @id @default(autoincrement())
-  question  String
+  userId    String   
+  user      User     @relation(fields: [userId], references: [id])
+  prompt    String
   response  String
 }
