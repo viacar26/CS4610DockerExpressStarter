@@ -11,17 +11,6 @@ import './App.css';
 
 
 const App: React.FC = () => {
-  useEffect(() => {
-    async function fetchData(username: string) {
-      const response = await fetch(`/api/user/${username}`);
-      const data = await response.json();
-      console.log(data);
-    }
-    fetchData("test");
-  }, []);
-  
-  useEffect(() => {
-  }, []);
 
   return (
     <BrowserRouter>

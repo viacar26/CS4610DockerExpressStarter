@@ -32,6 +32,7 @@ const Login: React.FC = () => {
       }
 
       const userTaken = await checkUsername(username);
+      console.log("User taken:", userTaken);
       if (userTaken) {
         setError("Username is already taken. Please try again.");
         return;
