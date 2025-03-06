@@ -9,7 +9,9 @@ const Login: React.FC = () => {
 
   async function checkUsername(username: string) {
     try {
+      console.log("Checking user in checkUsername:", username);
       const response = await fetch(`/api/user/${username}`);
+      console.log("Response:", response);
       if (!response.ok) {
         console.log("User not found", response.status);
         throw new Error("User not found");
