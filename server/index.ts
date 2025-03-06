@@ -1,12 +1,12 @@
 import express from 'express';
 import { config } from 'dotenv';
 import http from 'http';
+import { PrismaClient } from '@prisma/client';
 
 
 
 // load environment variables
 config();
-const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const app = express();
 
@@ -31,15 +31,29 @@ app.use((req, res, next) => {
   next();
 });
 
+// Check if a username exists
 app.get("/api/user/:username", async (req, res) => {
   const { username } = req.params;
 
   try {
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { name: username },
     });
-
-    res.json({ exists: !!user }); // Corrected: Send true if user exists, false otherwise
+    // if the username exists in the database, login user
+    if (user) {
+      await prisma.user.update({
+        where: { name: username },
+        data: { updatedAt: new Date() },
+      });
+      res.json({ exists: true });
+    }
+    // if the username does not exist in the database, create a new user
+    else {
+      await prisma.user.create({
+        data: { name: username },
+      });
+      res.json({ exists: false });
+    }
   } catch (error) {
     console.error("Error checking username:", error);
     res.status(500).json({ error: "Internal Server Error" });
