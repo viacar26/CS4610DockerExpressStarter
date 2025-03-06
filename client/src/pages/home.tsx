@@ -13,8 +13,7 @@ const Home: React.FC = () => {
         </p>
         </div>
         <div>
-        <button className="login" onClick={() => navigate("/login")}>Sign Up</button>
-        <button className="login" onClick={() => navigate("/login")}>Login</button>
+        <button className="login" onClick={() => navigate("/login")}>Sign Up/Login</button>
         </div>
       </>
     )

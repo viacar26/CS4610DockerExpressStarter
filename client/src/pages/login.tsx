@@ -61,6 +61,7 @@ const Login: React.FC = () => {
     <>
       <div className="card">
         <h2>What is your username?</h2>
+        <p>Input a new username to sign up, or login with a username already used.</p>
         <input 
         type="text" 
         id="username" 

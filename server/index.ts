@@ -3,9 +3,11 @@ import { config } from 'dotenv';
 import http from 'http';
 
 
+
 // load environment variables
 config();
-
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 const app = express();
 
 // slightly modified version of the code we wrote in class.
@@ -28,6 +30,22 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.get("/api/user/:username", async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { username },
+    });
+
+    res.json({ exists: !!user }); // Corrected: Send true if user exists, false otherwise
+  } catch (error) {
+    console.error("Error checking username:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 app.get('/', (req, res) => {
   res.send(`
