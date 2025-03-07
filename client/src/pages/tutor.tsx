@@ -4,7 +4,31 @@ import { useNavigate } from "react-router-dom";
 
 const Tutor: React.FC = () => {
     const navigate = useNavigate();
-    const [selected, setSelected] = useState<string>("");
+    const [prompt, setPrompt] = useState<string>("");
+    const [reply, setReply] = useState<string>("");
+
+    // Add prompt to database
+    async function addPrompt(prompt: string) {
+        try {
+          const response = await fetch(`/api/prompt/${prompt}`);
+          if (!response.ok) {
+            console.log("Prompt not added", response.status);
+            throw new Error("Prompt not added");
+          }
+          const data = await response.json();
+          // add prompt to database
+          setPrompt(prompt);
+          // ask llm to reply
+          setReply("That's a great question. I will try to formulate a really intelligent answer for you.");
+          navigate("/tutor");
+          return;
+        } catch (error) {
+          console.error("Error adding prompt: ", error);
+          return false;
+        }
+      }          
+          
+
     return (  
       <>
         <div className="card">
@@ -17,8 +41,8 @@ const Tutor: React.FC = () => {
             <label htmlFor="dropdown">Choose an option:</label>
             <select
             id="dropdown"
-            value={selected}
-            onChange={(e) => setSelected(e.target.value)}
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
             >
             <option value="">Select...</option>
             <option value="Rumination">Rumination is a repetitive, often unhelpful thought pattern. What are all of the effective strategies to counteract rumination?</option>
@@ -27,8 +51,11 @@ const Tutor: React.FC = () => {
             <option value="Sleep">What are some ways to improve the quality of your sleep?</option>
             <option value="Movement">What are important factors in using movement as medicine?</option>
             </select>
-            {selected && <p>You selected: {selected}</p>}
-            <button className='submit' onClick={() => navigate("/tutor")}>Submit</button>
+            {prompt && <p>You selected: {prompt}</p>}
+            <button className='submit' onClick={(e) => addPrompt(prompt)}>Submit</button>
+        </div>
+        <div className="reply">
+            <p>{reply}</p>
         </div>
         <button className="login" onClick={() => navigate("/")}>Logout</button>
         </div>

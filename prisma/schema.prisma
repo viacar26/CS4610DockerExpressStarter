@@ -27,5 +27,5 @@ model Post {
   userId    String   
   user      User     @relation(fields: [userId], references: [id])
   prompt    String
-  response  String
+  reply     String
 }

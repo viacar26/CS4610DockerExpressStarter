@@ -7,6 +7,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  // Use the username to check database and login user
   async function checkUsername(username: string) {
     try {
       const response = await fetch(`/api/user/${username}`);
