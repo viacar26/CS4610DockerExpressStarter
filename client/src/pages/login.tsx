@@ -17,49 +17,57 @@ const Login: React.FC = () => {
         throw new Error("User not found");
       }
       const data = await response.json();
-      console.log("API Response:", data); 
-      return data.exists;
+      console.log("API Response:", data);
+      // ensure username is not empty 
+      if (username.length === 0) {      
+        setError("Please enter a username");
+        return;
+      }
+      // Log user in
+      setUsername(username);
+      navigate("/tutor");
+      return;
     } catch (error) {
       console.error("Error checking user: ", error);
       return false;
     }
   }
 
-    const loginUser = async () => {
-      if (username.length === 0) {      
-        setError("Please enter a username");
-        return;
-      }
+    // const loginUser = async () => {
+    //   if (username.length === 0) {      
+    //     setError("Please enter a username");
+    //     return;
+    //   }
 
-      const userTaken = await checkUsername(username);
-      console.log("User taken:", userTaken);
-      if (userTaken) {
-        // Log user in
-        navigate("/tutor");
-        return;
-      }
+      // const userTaken = await checkUsername(username);
+      // console.log("User taken:", userTaken);
+      // if (userTaken) {
+      //   // Log user in
+      //   navigate("/tutor");
+      //   return;
+      // }
 
       // Create a new user in database
-      try {
-        const response = await fetch("/api/user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ username })
-        });
+  //     try {
+  //       const response = await fetch("/api/user", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json"
+  //         },
+  //         body: JSON.stringify({ username })
+  //       });
 
-        if (!response.ok) {
-          throw new Error("Error creating user");
-        }
+  //       if (!response.ok) {
+  //         throw new Error("Error creating user");
+  //       }
 
-      setError("");
-      navigate("/tutor");
-      } catch (error) {
-        console.error("Error creating user: ", error);
-        setError("Error creating user. Please try again.");
-      }
-  };
+  //     setError("");
+  //     navigate("/tutor");
+  //     } catch (error) {
+  //       console.error("Error creating user: ", error);
+  //       setError("Error creating user. Please try again.");
+  //     }
+  // };
 
   return (  
     <>
@@ -76,7 +84,7 @@ const Login: React.FC = () => {
         {error && <p className="error">{error}</p>}
       </div>
       <div>
-        <button className="login" onClick={loginUser}>Login</button>
+        <button className="login" onClick={() => checkUsername(username)}>Login</button>
       </div>
     </>
   );
