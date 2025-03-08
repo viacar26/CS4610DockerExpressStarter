@@ -31,7 +31,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Check if a username exists
+// Check if a username exists, and login user
 app.get("/api/user/:username", async (req, res) => {
   const { username } = req.params;
 
@@ -59,6 +59,10 @@ app.get("/api/user/:username", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// onSubmit, update what prompt the user has selected
+  //app.get request to get the prompt
+  //app.post request to send the prompt to the llm model
 
 
 app.get('/', (req, res) => {
