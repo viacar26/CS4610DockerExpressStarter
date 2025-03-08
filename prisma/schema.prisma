@@ -19,7 +19,7 @@ model User {
   user      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  posts Post[]
+  posts     Post[]
 }
 
 model Post {

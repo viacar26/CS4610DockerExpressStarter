@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -8,25 +8,35 @@ const Tutor: React.FC = () => {
     const [reply, setReply] = useState<string>("");
 
     // Add prompt to database
-    async function addPrompt(prompt: string) {
-        try {
-          const response = await fetch(`/api/prompt/${prompt}`);
-          if (!response.ok) {
-            console.log("Prompt not added", response.status);
-            throw new Error("Prompt not added");
+    useEffect(() => {
+      async function addPrompt(prompt: string) {
+          try {
+            const response = await fetch(`/api/prompt/`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ prompt }),
+            });
+            if (!response.ok) {
+              console.log("Prompt not added", response.status);
+              throw new Error("Prompt not added");
+            }
+            // add prompt to database
+            setPrompt(prompt);
+            console.log("Prompt added: ", prompt);
+            // ask llm to reply
+            setReply("That's a great question. I will try to formulate a really intelligent answer for you.");
+            console.log("Reply: ", reply);
+            navigate("/tutor");
+            return;
+          } catch (error) {
+            console.error("Error adding prompt: ", error);
+            return false;
           }
-          const data = await response.json();
-          // add prompt to database
-          setPrompt(prompt);
-          // ask llm to reply
-          setReply("That's a great question. I will try to formulate a really intelligent answer for you.");
-          navigate("/tutor");
-          return;
-        } catch (error) {
-          console.error("Error adding prompt: ", error);
-          return false;
-        }
-      }          
+        } 
+        addPrompt(prompt);    
+      }, [prompt]);         
           
 
     return (  
@@ -52,7 +62,7 @@ const Tutor: React.FC = () => {
             <option value="Movement">What are important factors in using movement as medicine?</option>
             </select>
             {prompt && <p>You selected: {prompt}</p>}
-            <button className='submit' onClick={(e) => addPrompt(prompt)}>Submit</button>
+            <button className='submit' onClick={(e) => setPrompt(prompt)}>Submit</button>
         </div>
         <div className="reply">
             <p>{reply}</p>
