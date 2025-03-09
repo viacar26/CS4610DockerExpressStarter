@@ -62,6 +62,28 @@ app.get("/api/user/:username", async (req, res) => {
 
 // onSubmit, update what prompt the user has selected
   //app.get request to get the prompt
+  // app.get("/api/prompt/:username", async (req, res) => {
+  //   console.log("inside the get prompt request: ", req.params.username);
+  //   const prompt: <String> = await prisma.user.findUnique({
+  //     where: { 
+  //       name: req.params.username, 
+  //      },
+  //   });
+  //   if (prompt) {
+  //     console.log("prompt found: ", prompt);
+  //     await prisma.prompt.update({
+  //       where: { name: req.params.username },
+
+  //     });
+  //     res.json({ prompt });
+  //   } else {
+  //     await prisma.prompt.create({
+  //       data: { name: req.params.username },
+  //     });
+  //     res.json({ prompt });
+  //   } 
+  // });
+
   //app.post request to send the prompt to the llm model
 
 

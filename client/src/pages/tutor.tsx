@@ -7,9 +7,11 @@ const Tutor: React.FC = () => {
     const [prompt, setPrompt] = useState<string>("");
     const [reply, setReply] = useState<string>("");
 
-    // Add prompt to database
-    useEffect(() => {
-      async function addPrompt(prompt: string) {
+    // Add prompt 
+    const addPrompt = async (prompt: string) => {
+        if (!prompt) {
+          return;
+        }
           try {
             const response = await fetch(`/api/prompt/`, {
               method: "POST",
@@ -23,20 +25,14 @@ const Tutor: React.FC = () => {
               throw new Error("Prompt not added");
             }
             // add prompt to database
-            setPrompt(prompt);
-            console.log("Prompt added: ", prompt);
             // ask llm to reply
             setReply("That's a great question. I will try to formulate a really intelligent answer for you.");
-            console.log("Reply: ", reply);
             navigate("/tutor");
             return;
           } catch (error) {
             console.error("Error adding prompt: ", error);
-            return false;
           }
-        } 
-        addPrompt(prompt);    
-      }, [prompt]);         
+        }        
           
 
     return (  
@@ -62,7 +58,7 @@ const Tutor: React.FC = () => {
             <option value="Movement">What are important factors in using movement as medicine?</option>
             </select>
             {prompt && <p>You selected: {prompt}</p>}
-            <button className='submit' onClick={(e) => setPrompt(prompt)}>Submit</button>
+            <button className='submit' onClick={(e) => addPrompt(prompt)}>Submit</button>
         </div>
         <div className="reply">
             <p>{reply}</p>
